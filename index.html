@@ -165,7 +165,7 @@
         
 
 
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
             header {
                 flex-direction: column;
                 text-align: center;
@@ -185,9 +185,8 @@
                 height: 300px;
                 max-width: 100%;
             }
-            /* Hide the second photo set on mobile */
-            .hide-on-mobile {
-                display: none;
+            #slider2 {
+                display: none !important;
             }
         }
     
@@ -221,8 +220,7 @@
                     <img src="images/photos/surron5.png" class="slide" alt="Custom Surron Bike 1c"> 
                 </div>
 
-                <!-- Added the class "hide-on-mobile" here -->
-                <div class="slider-container hide-on-mobile" id="slider2">
+                <div class="slider-container" id="slider2">
                     <img src="images/photos/surron2.png" class="slide active" alt="Custom Surron Bike 2a">
                     <img src="images/photos/surron4.png" class="slide" alt="Custom Surron Bike 2b">
                     <img src="images/photos/surron6.png" class="slide" alt="Custom Surron Bike 2c"> 
@@ -265,9 +263,41 @@
         </a>
 
 <script>
-    document.addEventListener('DOMContentLoaded', (
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const slides1 = document.querySelectorAll('#slider1 .slide');
+        const slides2 = document.querySelectorAll('#slider2 .slide');
+        let currentSlide = 0;
+        const intervalTime = 7500; 
+
+        function nextSlide() {
+            slides1[currentSlide].classList.remove('active');
+            slides2[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides1.length;
+            slides1[currentSlide].classList.add('active');
+            slides2[currentSlide].classList.add('active');
+        }
+        setInterval(nextSlide, intervalTime);
+
        
-    ));
+        const startOrderButton = document.getElementById('startOrderButton');
+        const dropdownContent = document.getElementById('dropdownContent');
+
+        startOrderButton.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            dropdownContent.classList.toggle('show');
+        });
+
+        
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content')) {
+                if (dropdownContent.classList.contains('show')) {
+                    dropdownContent.classList.remove('show');
+                }
+            }
+        }
+    });
 </script>
+
 </body>
 </html>
